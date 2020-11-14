@@ -46,10 +46,24 @@ export default function App() {
     inputRange: [
       0,
       HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
-      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGHT,
-      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 5 + PROFILE_IMAGE_MIN_HEIGHT + 26,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + PROFILE_IMAGE_MIN_HEIGHT,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + PROFILE_IMAGE_MIN_HEIGHT + 26,
     ],
     outputRange: [-20, -20, -20, 0],
+    extrapolate: 'clamp',
+  });
+  const headerTitleScale = scrollY.interpolate({
+    inputRange: [
+      0,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
+      HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT + 10 + PROFILE_IMAGE_MIN_HEIGHT,
+      HEADER_MAX_HEIGHT -
+        HEADER_MIN_HEIGHT +
+        12 +
+        PROFILE_IMAGE_MIN_HEIGHT +
+        26,
+    ],
+    outputRange: [0, 0, 0, 1],
     extrapolate: 'clamp',
   });
 
@@ -66,7 +80,10 @@ export default function App() {
         ]}>
         <Animated.View
           style={[styles.headerTitle, {bottom: headerTitleBottom}]}>
-          <Text style={styles.title}>{name}</Text>
+          <Animated.Text
+            style={[styles.title, {transform: [{scale: headerTitleScale}]}]}>
+            {name}
+          </Animated.Text>
         </Animated.View>
       </Animated.View>
       <ScrollView
