@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView, Image, Text} from 'react-native';
+import {
+  Animated,
+  View,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Text,
+  Dimensions,
+} from 'react-native';
 import constants from './constants';
 
 const HEADER_MAX_HEIGHT = 120;
@@ -8,16 +16,46 @@ const PROFILE_IMAGE_MAX_HEIGHT = 80;
 const PROFILE_IMAGE_MIN_HEIGHT = 40;
 
 export default function App() {
+  const scrollY = React.useRef(new Animated.Value(0)).current;
+
+  const headerHeight = scrollY.interpolate({
+    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
+    outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+    extrapolate: 'clamp',
+  });
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
-      <ScrollView style={styles.content}>
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            height: headerHeight,
+          },
+        ]}
+      />
+      <ScrollView
+        style={styles.content}
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: scrollY,
+                },
+              },
+            },
+          ],
+          {useNativeDriver: false},
+        )}>
         <View style={styles.image}>
           <Image source={{uri: constants.AVATAR}} style={styles.img} />
         </View>
         <View>
           <Text style={styles.name}>Usman Suleiman</Text>
         </View>
+        <View style={styles.body}>{/* <Text>{constants.LOREM}</Text> */}</View>
       </ScrollView>
     </View>
   );
@@ -29,11 +67,11 @@ const styles = StyleSheet.create({
   },
   header: {
     ...StyleSheet.absoluteFillObject,
-    height: HEADER_MAX_HEIGHT,
+    // height: HEADER_MAX_HEIGHT,
     backgroundColor: 'lightskyblue',
   },
   content: {
-    flexGrow: 1,
+    flex: 1,
   },
   image: {
     height: PROFILE_IMAGE_MAX_HEIGHT,
@@ -54,5 +92,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 26,
     paddingLeft: 10,
+  },
+  body: {
+    height: Dimensions.get('window').height,
   },
 });
