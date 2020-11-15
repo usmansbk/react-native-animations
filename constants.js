@@ -1,8 +1,6 @@
 export default {
   AVATAR: 'https://i.pravatar.cc/300',
   LOREM: `
-  
-
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec nunc sit amet nisl eleifend congue. Mauris gravida odio id sodales auctor. Duis malesuada, nisi a molestie finibus, eros tellus lacinia augue, vitae pellentesque ex urna a sem. Curabitur ex arcu, lobortis vitae pretium et, aliquam non elit. Curabitur sed velit ac mi feugiat bibendum at nec nulla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer ex urna, pellentesque nec sem ac, aliquam mattis enim.
 
 Etiam sit amet auctor elit. Ut gravida malesuada dui, id hendrerit sapien consectetur et. Aliquam volutpat, dolor id blandit malesuada, urna sem semper sem, vel dictum justo elit vitae risus. Mauris ante tellus, tempor sit amet odio nec, hendrerit luctus tortor. Phasellus porta eros id augue pretium, dictum cursus felis malesuada. Aliquam sed condimentum enim. Ut lobortis nisl enim, et varius nibh mattis ut.
