@@ -2,55 +2,67 @@ import React, {useRef} from 'react';
 import {
   View,
   Animated,
-  TouchableWithoutFeedback,
   StyleSheet,
+  PanResponder,
+  Dimensions,
   Text,
 } from 'react-native';
 
+const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'green',
   },
   box: {
-    width: 150,
-    height: 150,
+    width: 75,
+    height: 75,
     backgroundColor: 'tomato',
-  },
-  box2: {
-    backgroundColor: 'blue',
-  },
-  text: {
-    fontSize: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
 export default function Animations() {
-  const anim = useRef(new Animated.Value(1)).current;
-  const onPress = () =>
-    Animated.timing(anim, {
-      toValue: anim._value === 2 ? 1 : 2,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
+  const animation = useRef(new Animated.ValueXY(0)).current;
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => animation.extractOffset(),
+      onPanResponderMove: Animated.event(
+        [
+          null,
+          {
+            dy: animation.y,
+          },
+        ],
+        {useNativeDriver: false},
+      ),
+    }),
+  ).current;
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.box, styles.box2]} />
-      <TouchableWithoutFeedback onPress={onPress}>
-        <Animated.View
-          style={[
-            styles.box,
-            {
-              transform: [{scaleY: anim}],
-              // height: anim,
-            },
-          ]}>
-          <Text style={styles.text}>Hello World Lorem Ipsum Dolor Amet</Text>
-        </Animated.View>
-      </TouchableWithoutFeedback>
+    <View style={styles.container} {...panResponder.panHandlers}>
+      <Animated.View
+        style={[
+          styles.box,
+          {
+            transform: [
+              {
+                scale: animation.y.interpolate({
+                  inputRange: [0, height / 3],
+                  outputRange: [0.1, 1],
+                  extrapolateLeft: 'extend',
+                  extrapolateRight: 'clamp',
+                }),
+              },
+            ],
+          },
+        ]}>
+        <Text>Drag</Text>
+      </Animated.View>
     </View>
   );
 }

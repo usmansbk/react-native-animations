@@ -1,33 +1,49 @@
 import React, {useRef} from 'react';
-import {Animated, View, StyleSheet, PanResponder, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  PanResponder,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 
 export default () => {
-  const pan = useRef(new Animated.ValueXY()).current;
-  const panResponder = useRef(
+  const bgContainer = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}], {
-        useNativeDriver: false,
-      }),
-      onPanResponderRelease: () => {
-        Animated.spring(pan, {
-          toValue: {x: 0, y: 0},
-          useNativeDriver: false,
-        }).start();
+      onStartShouldSetPanResponder: () => {
+        console.log('container onStartShouldSetPanResponder');
+        return true;
+      },
+      onPanResponderTerminationRequest: () => {
+        console.log('container onPanResponderTerminationRequest');
+        return true;
+      },
+      onStartShouldSetPanResponderCapture: () => {
+        console.log('container onStartShouldSetPanResponderCapture');
+        return true;
+      },
+    }),
+  ).current;
+  const box = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => {
+        console.log('box1 onStartShouldSetPanResponder');
+        return true;
+      },
+      onPanResponderTerminationRequest: () => {
+        console.log('box1 onPanResponderTerminationRequest');
+        return true;
       },
     }),
   ).current;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titleText}>Drag & Release this box!</Text>
-      <Animated.View
-        style={{
-          transform: [{translateX: pan.x}, {translateY: pan.y}],
-        }}
-        {...panResponder.panHandlers}>
-        <View style={styles.box} />
-      </Animated.View>
+    <View style={styles.container} {...bgContainer.panHandlers}>
+      <View style={styles.box1} {...box.panHandlers}>
+        <TouchableOpacity style={styles.button}>
+          <Text>Inner</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -37,16 +53,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'cyan',
   },
-  titleText: {
-    fontSize: 14,
-    lineHeight: 24,
-    fontWeight: 'bold',
-  },
-  box: {
+  box1: {
     height: 150,
     width: 150,
-    backgroundColor: 'blue',
-    borderRadius: 5,
+    backgroundColor: 'tomato',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    padding: 16,
+    backgroundColor: 'green',
   },
 });
