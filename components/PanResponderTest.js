@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+    backgroundColor: 'white',
   },
   zone1: {
     backgroundColor: 'red',
@@ -95,13 +96,11 @@ const styles = StyleSheet.create({
     height: ZONE_HEIGHT,
   },
   center: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'green',
-    flex: 1,
   },
   text: {
     fontSize: 18,
-    color: 'white',
   },
 });
