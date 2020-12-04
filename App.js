@@ -5,9 +5,10 @@ import React from 'react';
 // import Transformations from './components/Transformation';
 // import Animations from './components/Animations';
 // import PanResponderTest from './components/PanResponderTest';
-import KittenCards from './components/KittenCards';
+// import KittenCards from './components/KittenCards';
+import Scroll from './components/Scroll';
 
 export default function App() {
   // return <Animations />;
-  return <KittenCards />;
+  return <Scroll />;
 }
