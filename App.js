@@ -6,9 +6,10 @@ import React from 'react';
 // import Animations from './components/Animations';
 // import PanResponderTest from './components/PanResponderTest';
 // import KittenCards from './components/KittenCards';
-import Scroll from './components/Scroll';
+// import Scroll from './components/Scroll';
+// import HiddenAnimation from './components/Hidden';
+import InterruptedAnimation from './components/InterruptedAnimation';
 
 export default function App() {
-  // return <Animations />;
-  return <Scroll />;
+  return <InterruptedAnimation />;
 }
