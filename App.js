@@ -10,8 +10,9 @@ import React from 'react';
 // import HiddenAnimation from './components/Hidden';
 // import InterruptedAnimation from './components/InterruptedAnimation';
 // import Pointer from './components/Pointer';
-import Corners from './components/Corners';
+// import Corners from './components/Corners';
+import ChatHeads from './components/Heads';
 
 export default function App() {
-  return <Corners />;
+  return <ChatHeads />;
 }
