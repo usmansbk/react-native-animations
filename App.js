@@ -9,8 +9,9 @@ import React from 'react';
 // import Scroll from './components/Scroll';
 // import HiddenAnimation from './components/Hidden';
 // import InterruptedAnimation from './components/InterruptedAnimation';
-import Pointer from './components/Pointer';
+// import Pointer from './components/Pointer';
+import Corners from './components/Corners';
 
 export default function App() {
-  return <Pointer />;
+  return <Corners />;
 }
