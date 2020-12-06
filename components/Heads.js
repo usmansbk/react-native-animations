@@ -28,9 +28,9 @@ export default function ChatHeads() {
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: () =>
-        heads.forEach((head) => {
-          head.animation.extractOffset();
-          head.animation.stopAnimation();
+        heads.forEach(({animation}) => {
+          animation.extractOffset();
+          animation.stopAnimation();
         }),
       onPanResponderMove: (_, {dx, dy}) => {
         heads[0].animation.setValue({x: dx, y: dy});
