@@ -8,8 +8,9 @@ import React from 'react';
 // import KittenCards from './components/KittenCards';
 // import Scroll from './components/Scroll';
 // import HiddenAnimation from './components/Hidden';
-import InterruptedAnimation from './components/InterruptedAnimation';
+// import InterruptedAnimation from './components/InterruptedAnimation';
+import Pointer from './components/Pointer';
 
 export default function App() {
-  return <InterruptedAnimation />;
+  return <Pointer />;
 }
