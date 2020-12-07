@@ -15,8 +15,9 @@ import React from 'react';
 // import Form from './components/Form';
 // import ProgressButton from './components/ProgressButton';
 // import DirectManipulation from './components/DirectManipulation';
-import Notifications from './components/Notifications';
+// import Notifications from './components/Notifications';
+import Questionnaire from './components/Questionnaire';
 
 export default function App() {
-  return <Notifications />;
+  return <Questionnaire />;
 }
