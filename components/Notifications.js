@@ -1,13 +1,16 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
+  Animated,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  StatusBar,
 } from 'react-native';
 
 export default function Notifications() {
+  const notificationRef = useRef(null);
   const [value, setValue] = useState('');
   const [notification, setNotification] = useState('');
 
@@ -18,8 +21,13 @@ export default function Notifications() {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="tomato" />
+      <Animated.View ref={notificationRef} style={[styles.notification]}>
+        <Text style={styles.notificationText}>{notification}</Text>
+      </Animated.View>
       <View>
         <TextInput
+          autoFocus
           placeholder="Type your message"
           style={styles.input}
           value={value}
@@ -56,6 +64,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
+    color: 'white',
+  },
+  notification: {
+    position: 'absolute',
+    paddingHorizontal: 7,
+    paddingVertical: 15,
+    left: 0,
+    top: 0,
+    right: 0,
+    backgroundColor: 'tomato',
+  },
+  notificationText: {
     color: 'white',
   },
 });
