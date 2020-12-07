@@ -13,8 +13,9 @@ import React from 'react';
 // import Corners from './components/Corners';
 // import ChatHeads from './components/Heads';
 // import Form from './components/Form';
-import ProgressButton from './components/ProgressButton';
+// import ProgressButton from './components/ProgressButton';
+import Notifications from './components/Notifications';
 
 export default function App() {
-  return <ProgressButton />;
+  return <Notifications />;
 }
