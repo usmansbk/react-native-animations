@@ -43,14 +43,14 @@ export default function ProgressButton() {
 
   const progressStyle = {
     width: progressInterpolate,
-    // bottom: 0,
+    bottom: 0,
     // height: progressInterpolate,
     // right: 0,
-    top: null,
-    bottom: 0,
-    height: 5,
+    // top: null,
+    // bottom: 0,
+    // height: 5,
     opacity,
-    // backgroundColor: colorInterpolate,
+    backgroundColor: colorInterpolate,
   };
 
   return (
