@@ -14,6 +14,7 @@ import React from 'react';
 // import ChatHeads from './components/Heads';
 // import Form from './components/Form';
 // import ProgressButton from './components/ProgressButton';
+// import DirectManipulation from './components/DirectManipulation';
 import Notifications from './components/Notifications';
 
 export default function App() {
