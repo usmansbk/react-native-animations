@@ -9,15 +9,15 @@ import {
 } from 'react-native';
 
 const {width} = Dimensions.get('window');
+const questions = [
+  'Do you tend to follow directions when given?',
+  'Are you comfortable with the idea of standing and doing light physical activity most of the day?',
+  'Would you enjoy making sure your customers leave happy?',
+  'Are you willing to work nights and weekends (and possibly holidays)?',
+];
 
 export default function Questionnaire() {
   const [index, setIndex] = useState(0);
-  const [questions] = useState([
-    'Do you tend to follow directions when given?',
-    'Are you comfortable with the idea of standing and doing light physical activity most of the day?',
-    'Would you enjoy making sure your customers leave happy?',
-    'Are you willing to work nights and weekends (and possibly holidays)?',
-  ]);
 
   const animation = useRef(new Animated.Value(0)).current;
   const progress = useRef(new Animated.Value(0)).current;
