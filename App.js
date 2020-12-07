@@ -12,8 +12,9 @@ import React from 'react';
 // import Pointer from './components/Pointer';
 // import Corners from './components/Corners';
 // import ChatHeads from './components/Heads';
-import Form from './components/Form';
+// import Form from './components/Form';
+import ProgressButton from './components/ProgressButton';
 
 export default function App() {
-  return <Form />;
+  return <ProgressButton />;
 }
