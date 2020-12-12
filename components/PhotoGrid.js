@@ -6,24 +6,128 @@ import {
   TouchableWithoutFeedback,
   View,
   Dimensions,
+  Text,
 } from 'react-native';
 
-const {width} = Dimensions.get('window');
+const ITEM_WIDTH = Dimensions.get('window').width / 3;
 
 export default function PhotoGrid() {
   const animation = useRef(new Animated.Value(0)).current;
   const position = useRef(new Animated.ValueXY()).current;
   const size = useRef(new Animated.ValueXY()).current;
+  const savedValues = useRef({}).current;
+
+  const viewImageRef = useRef(null);
+  const contentRef = useRef(null);
 
   const gridImages = useRef({}).current;
 
-  const [activeImage] = useState(null);
-  const [activeIndex] = useState(null);
+  const [activeImage, setActiveImage] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(null);
 
-  const handleOpenImage = (index) => {};
+  const handleOpenImage = (index) => {
+    gridImages[index].measure((_x, _y, width, height, pageX, pageY) => {
+      savedValues.x = pageX;
+      savedValues.y = pageY;
+      savedValues.width = width;
+      savedValues.height = height;
+
+      position.setValue({
+        x: pageX,
+        y: pageY,
+      });
+
+      size.setValue({
+        x: width,
+        y: height,
+      });
+
+      setActiveImage(images[index]);
+      setActiveIndex(index);
+      viewImageRef.current.measure(
+        (_tx, _ty, tWidth, tHeight, tPageX, tPageY) => {
+          console.log(tWidth, tHeight);
+          Animated.parallel([
+            Animated.spring(position.x, {
+              toValue: tPageX,
+              useNativeDriver: false,
+            }),
+            Animated.spring(position.y, {
+              toValue: tPageY,
+              useNativeDriver: false,
+            }),
+            Animated.spring(size.x, {
+              toValue: tWidth,
+              useNativeDriver: false,
+            }),
+            Animated.spring(size.y, {
+              toValue: tHeight,
+              useNativeDriver: false,
+            }),
+            Animated.spring(animation, {
+              toValue: 1,
+              useNativeDriver: false,
+            }),
+          ]).start();
+        },
+      );
+    });
+  };
+  const handleClose = () => {
+    Animated.parallel([
+      Animated.timing(position.x, {
+        toValue: savedValues.x,
+        duration: 250,
+        useNativeDriver: false,
+      }),
+      Animated.timing(position.y, {
+        toValue: savedValues.y,
+        duration: 250,
+        useNativeDriver: false,
+      }),
+      Animated.timing(size.x, {
+        toValue: savedValues.width,
+        duration: 250,
+        useNativeDriver: false,
+      }),
+      Animated.timing(size.y, {
+        toValue: savedValues.height,
+        duration: 250,
+        useNativeDriver: false,
+      }),
+      Animated.timing(animation, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: false,
+      }),
+    ]).start(() => setActiveImage(null));
+  };
 
   const activeIndexStyle = {
     opacity: activeImage ? 0 : 1,
+  };
+
+  const animatedContentTranslate = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [300, 0],
+  });
+
+  const activeImageStyle = {
+    width: size.x,
+    height: size.y,
+    top: position.y,
+    left: position.x,
+  };
+  const animatedContentStyles = {
+    opacity: animation,
+    transform: [
+      {
+        translateY: animatedContentTranslate,
+      },
+    ],
+  };
+  const animatedClose = {
+    opacity: animation,
   };
 
   return (
@@ -33,7 +137,9 @@ export default function PhotoGrid() {
           {images.map((uri, index) => {
             const style = index === activeIndex ? activeIndexStyle : undefined;
             return (
-              <TouchableWithoutFeedback key={index} onPress={handleOpenImage}>
+              <TouchableWithoutFeedback
+                key={index}
+                onPress={() => handleOpenImage(index)}>
                 <Animated.Image
                   source={{uri}}
                   ref={(ref) => (gridImages[index] = ref)}
@@ -45,6 +151,33 @@ export default function PhotoGrid() {
           })}
         </View>
       </ScrollView>
+
+      <View
+        style={StyleSheet.absoluteFill}
+        pointerEvents={activeImage ? 'auto' : 'none'}>
+        <View
+          style={styles.topContent}
+          ref={viewImageRef}
+          onLayout={() => null}>
+          <Animated.Image
+            key={activeImage}
+            source={{uri: activeImage}}
+            resizeMode="cover"
+            style={[styles.viewImage, activeImageStyle]}
+          />
+        </View>
+        <Animated.View
+          style={[styles.content, animatedContentStyles]}
+          ref={contentRef}>
+          <Text style={styles.title}>Pretty Image from Unsplash</Text>
+          <Text>{lorem}</Text>
+        </Animated.View>
+        <TouchableWithoutFeedback onPress={handleClose}>
+          <Animated.View style={[styles.close, animatedClose]}>
+            <Text style={styles.closeText}>X</Text>
+          </Animated.View>
+        </TouchableWithoutFeedback>
+      </View>
     </View>
   );
 }
@@ -58,8 +191,37 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   gridImage: {
-    width: width / 3,
+    width: ITEM_WIDTH,
     height: 150,
+  },
+  topContent: {
+    flex: 1,
+  },
+  content: {
+    flex: 2,
+    backgroundColor: 'white',
+    padding: 8,
+  },
+  close: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 20,
+  },
+  closeText: {
+    fontSize: 16,
+    color: 'white',
+  },
+  title: {
+    fontSize: 20,
+    marginBottom: 8,
+  },
+  viewImage: {
+    width: null,
+    height: null,
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
 });
 
@@ -84,3 +246,6 @@ const images = [
   'https://images.unsplash.com/photo-1542359498-13ebad248020?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
   'https://images.unsplash.com/photo-1473773386757-42bbe7288351?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1289&q=80',
 ];
+
+const lorem =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
