@@ -46,7 +46,6 @@ export default function PhotoGrid() {
       setActiveIndex(index);
       viewImageRef.current.measure(
         (_tx, _ty, tWidth, tHeight, tPageX, tPageY) => {
-          console.log(tWidth, tHeight);
           Animated.parallel([
             Animated.spring(position.x, {
               toValue: tPageX,
