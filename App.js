@@ -17,8 +17,9 @@ import React from 'react';
 // import DirectManipulation from './components/DirectManipulation';
 // import Notifications from './components/Notifications';
 // import Questionnaire from './components/Questionnaire';
-import PhotoGrid from './components/PhotoGrid';
+// import PhotoGrid from './components/PhotoGrid';
+import ColorPicker from './components/AnimatedColorPicker';
 
 export default function App() {
-  return <PhotoGrid />;
+  return <ColorPicker />;
 }
