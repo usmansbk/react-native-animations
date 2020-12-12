@@ -52,7 +52,7 @@ export default function ColorPicker() {
 
   const translateYInterpolate = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [50, 0],
+    outputRange: [150, 0],
   });
 
   const rowStyle = {
@@ -240,5 +240,8 @@ const styles = StyleSheet.create({
   },
   okayText: {
     color: 'white',
+  },
+  button: {
+    marginTop: 50,
   },
 });
