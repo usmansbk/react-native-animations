@@ -14,10 +14,11 @@ import React from 'react';
 // import ChatHeads from './components/Heads';
 // import Form from './components/Form';
 // import ProgressButton from './components/ProgressButton';
-import DirectManipulation from './components/DirectManipulation';
+// import DirectManipulation from './components/DirectManipulation';
 // import Notifications from './components/Notifications';
 // import Questionnaire from './components/Questionnaire';
+import PhotoGrid from './components/PhotoGrid';
 
 export default function App() {
-  return <DirectManipulation />;
+  return <PhotoGrid />;
 }
