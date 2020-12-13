@@ -21,8 +21,9 @@ import React from 'react';
 // import ColorPicker from './components/AnimatedColorPicker';
 // import Fab from './components/Fab';
 // import Intro from './components/Intro';
-import Writer from './components/Writer';
+// import Writer from './components/Writer';
+import HeartBeat from './components/HeartBeat';
 
 export default function App() {
-  return <Writer />;
+  return <HeartBeat />;
 }
