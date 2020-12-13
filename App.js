@@ -18,8 +18,9 @@ import React from 'react';
 // import Notifications from './components/Notifications';
 // import Questionnaire from './components/Questionnaire';
 // import PhotoGrid from './components/PhotoGrid';
-import ColorPicker from './components/AnimatedColorPicker';
+// import ColorPicker from './components/AnimatedColorPicker';
+import Fab from './components/Fab';
 
 export default function App() {
-  return <ColorPicker />;
+  return <Fab />;
 }
