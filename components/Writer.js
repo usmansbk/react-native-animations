@@ -1,55 +1,69 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
   Dimensions,
+  Animated,
+  Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const {height} = Dimensions.get('window');
-const MAX_HEIGHT = height * 0.4;
-const HEIGHT = height * 0.2;
+const {width} = Dimensions.get('window');
 
-const IconButton = ({name}) => {
+const IconButton = ({name, size = 30, squared}) => {
+  const SIZE = squared ? size - 10 : size;
+  const borderRadius = squared ? 2 : SIZE / 2;
+  const backgroundColor = squared ? '#2a6cdb' : 'transparent';
   return (
-    <TouchableOpacity style={styles.button}>
-      <Icon name={name} size={20} color="white" />
+    <TouchableOpacity
+      style={[
+        styles.iconButton,
+        {
+          width: SIZE,
+          height: SIZE,
+          borderRadius,
+          backgroundColor,
+        },
+      ]}>
+      <Icon name={name} size={size / 2} color="white" />
     </TouchableOpacity>
   );
 };
 
 export default function Writer() {
+  const animation = useRef(new Animated.Value(0)).current;
+  const textInputRef = useRef(null);
+  const [isOpen, setOpen] = useState(false);
+
   return (
     <View style={styles.container}>
-      <View>
-        <View style={[styles.bar]}>
-          <View style={styles.toolbar}>
-            <IconButton name="format-bold" />
-            <IconButton name="format-underline" />
-            <IconButton name="format-italic" />
-            <IconButton name="format-list-bulleted" />
-            <IconButton name="format-list-numbered" />
+      <View style={styles.center}>
+        <Animated.View style={styles.editor}>
+          <View style={styles.bar}>
+            <Animated.View style={[styles.toolbar]}>
+              <IconButton name="format-bold" />
+              <IconButton name="format-underline" />
+              <IconButton name="format-italic" />
+              <IconButton name="format-list-bulleted" />
+              <IconButton name="format-list-numbered" />
+              <View style={styles.right}>
+                <IconButton name="insert-link" />
+                <IconButton name="insert-photo" />
+                <IconButton name="keyboard-arrow-down" squared />
+              </View>
+            </Animated.View>
           </View>
-
-          <View style={styles.toolbar}>
-            <IconButton name="insert-link" />
-            <IconButton name="insert-photo" />
-            <IconButton name="format-bold" />
-            <TouchableOpacity style={styles.squareButton}>
-              <Icon name="keyboard-arrow-down" size={24} color="white" />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.textInputContainer}>
-          <TextInput
-            multiline
-            placeholder="Start writing..."
-            style={styles.textInput}
-            maxHeight={MAX_HEIGHT}
-          />
-        </View>
+          <Animated.View style={[styles.textInputContainer]}>
+            <TextInput
+              placeholder="Start writing..."
+              multiline
+              ref={textInputRef}
+              style={styles.textInput}
+            />
+          </Animated.View>
+        </Animated.View>
       </View>
     </View>
   );
@@ -58,36 +72,46 @@ export default function Writer() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconButton: {
+    alignItems: 'center',
     justifyContent: 'center',
   },
   bar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    height: 50,
     backgroundColor: '#2979FF',
-    paddingVertical: 16,
-    paddingHorizontal: 8,
+    justifyContent: 'center',
   },
   toolbar: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around',
     alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 8,
   },
-  button: {
-    padding: 4,
+  right: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingRight: 4,
   },
-  squareButton: {
-    backgroundColor: '#2f6acc',
-    borderRadius: 2,
-    marginHorizontal: 4,
+  editor: {
+    width: width * 0.8,
   },
   textInputContainer: {
-    minHeight: HEIGHT,
-    backgroundColor: 'white',
-    padding: 16,
+    height: 150,
     elevation: 4,
+    backgroundColor: 'white',
+    paddingHorizontal: 8,
   },
   textInput: {
-    fontSize: 16,
+    fontSize: 20,
   },
 });
