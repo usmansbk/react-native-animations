@@ -20,8 +20,9 @@ import React from 'react';
 // import PhotoGrid from './components/PhotoGrid';
 // import ColorPicker from './components/AnimatedColorPicker';
 // import Fab from './components/Fab';
-import Intro from './components/Intro';
+// import Intro from './components/Intro';
+import Writer from './components/Writer';
 
 export default function App() {
-  return <Intro />;
+  return <Writer />;
 }
